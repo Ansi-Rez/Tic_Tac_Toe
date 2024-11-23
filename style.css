@@ -1,0 +1,40 @@
+*
+{
+  padding:0;
+  margin:0;
+}
+
+body
+{
+  background-color:#05FAC9;
+  padding:0;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.tictaccontainer
+{
+  background-color:#FA0536;
+  width:350px;
+  height:450px;
+  border:black solid 1px;
+}
+
+.tictaccontainer table
+{
+  height:95%;
+  width:100%;
+}
+
+.tictaccontainer div
+{
+  height:5%;
+}
+
+.tictaccontainer table td
+{
+  border:black solid 1px;
+}
