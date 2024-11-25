@@ -33,86 +33,81 @@ let gameBoard = (function()
 })();
 
 //Player
+
 let playerFactory = function(name,id)
 {
     const winMessage = name + " is the winner of this round";
 
     return {name,id,winMessage}
 }
-
-
-
-//GameFlow
-
-let gameFlow = (function ()
-{
-  let plx = playerFactory("Kadeem",1);
-  let plo = playerFactory("Nyron",2);
-
-  //c for condition
-  let c = true;
-  let currentplayer = plx.id;
-
-  let current_board = gameBoard.getBoard();
-
-  while(c)
-  {
-      if(currentplayer == 1)
-      {
-        let row = prompt(plx.name + " please enter the row you want to enter your cross");
-        let col = prompt(plx.name + " please enter the column you want to enter your cross");
-        gameBoard.setBoard(plx.id,row,col);
-        console.log(current_board);
-        
-        if((current_board[0][0] == 'x' && current_board[0][1] == 'x' && current_board[0][2] == 'x')||
-        (current_board[1][0] == 'x' && current_board[1][1] == 'x' && current_board[1][2] == 'x')||
-        (current_board[2][0] == 'x' && current_board[2][1] == 'x' && current_board[2][2] == 'x')||
-        (current_board[0][0] == 'x' && current_board[1][0] == 'x' && current_board[2][0] == 'x')||
-        (current_board[0][1] == 'x' && current_board[1][1] == 'x' && current_board[2][1] == 'x')||
-        (current_board[0][2] == 'x' && current_board[1][2] == 'x' && current_board[2][2] == 'x')||
-        (current_board[0][0] == 'x' && current_board[1][1] == 'x' && current_board[2][2] == 'x')||
-        (current_board[0][2] == 'x' && current_board[1][1] == 'x' && current_board[2][0] == 'x'))
-        {
-          console.log(current_board);
-          console.log(plx.winMessage);
-          c = false;
-        }
-        else
-        {
-        currentplayer = plo.id;
-        }
-      }
-      else if(currentplayer == 2)
-      {
-        let row = prompt(plo.name + " please enter the row you want to enter your cross");
-        let col = prompt(plo.name + " please enter the column you want to enter your cross");
-        gameBoard.setBoard(plo.id,row,col);
-        console.log(current_board);
-        
-        if((current_board[0][0] == 'o' && current_board[0][1] == 'o' && current_board[0][2] == 'o')||
-        (current_board[1][0] == 'o' && current_board[1][1] == 'o' && current_board[1][2] == 'o')||
-        (current_board[2][0] == 'o' && current_board[2][1] == 'o' && current_board[2][2] == 'o')||
-        (current_board[0][0] == 'o' && current_board[1][0] == 'o' && current_board[2][0] == 'o')||
-        (current_board[0][1] == 'o' && current_board[1][1] == 'o' && current_board[2][1] == 'o')||
-        (current_board[0][2] == 'o' && current_board[1][2] == 'o' && current_board[2][2] == 'o')||
-        (current_board[0][0] == 'o' && current_board[1][1] == 'o' && current_board[2][2] == 'o')||
-        (current_board[0][2] == 'o' && current_board[1][1] == 'o' && current_board[2][0] == 'o'))
-        {
-          console.log(current_board);
-          console.log(plo.winMessage);
-          c = false;
-        }
-        else
-        {
-        currentplayer = plx.id;
-        }
-      }
-  }
-})();
-
-//display controller
-
-let displayController = (function()
-{
   
+let player1 = playerFactory("Kadeem",1);
+let player2 = playerFactory("Nyron",2);
+let round = true;
+let current_player = player1.id;
+let plturn = document.querySelector("#player_turn");
+plturn.textContent = player1.name;
+//Game
+
+let game = (function()
+{
+
+  let squares = document.querySelectorAll(".tictaccontainer td");
+
+  for(let i=0; i < squares.length; i++)
+  {
+    squares[i].addEventListener("click",(e)=>
+    {
+      if(round && e.target.textContent != 'x' && e.target.textContent != 'o')
+      {
+        changeSquares(Number(e.target.getAttribute("data-square-row")),Number(e.target.getAttribute("data-square-col")),e.target);
+        console.log("hello");
+      }
+      else
+      {
+        console.log("hi");
+      }
+    });
+  }
+
+  let changeSquares = function(row,col,square)
+  {
+    gameBoard.setBoard(current_player,row,col);
+    square.textContent = gameBoard.getBoard()[row][col];
+    if(current_player == player1.id)
+    {
+      current_player = player2.id;
+      plturn.textContent = player2.name;
+    }
+    else if(current_player == player2.id)
+    {
+      current_player = player1.id;
+      plturn.textContent = player1.name;
+    }
+    
+    if((gameBoard.getBoard()[0][0] == 'x' && gameBoard.getBoard()[0][1] == 'x' && gameBoard.getBoard()[0][2] == 'x')||
+    (gameBoard.getBoard()[1][0] == 'x' && gameBoard.getBoard()[1][1] == 'x' && gameBoard.getBoard()[1][2] == 'x')||
+    (gameBoard.getBoard()[2][0] == 'x' && gameBoard.getBoard()[2][1] == 'x' && gameBoard.getBoard()[2][2] == 'x')||
+    (gameBoard.getBoard()[0][0] == 'x' && gameBoard.getBoard()[1][0] == 'x' && gameBoard.getBoard()[2][0] == 'x')||
+    (gameBoard.getBoard()[0][1] == 'x' && gameBoard.getBoard()[1][1] == 'x' && gameBoard.getBoard()[2][1] == 'x')||
+    (gameBoard.getBoard()[0][2] == 'x' && gameBoard.getBoard()[1][2] == 'x' && gameBoard.getBoard()[2][2] == 'x')||
+    (gameBoard.getBoard()[0][0] == 'x' && gameBoard.getBoard()[1][1] == 'x' && gameBoard.getBoard()[2][2] == 'x')||
+    (gameBoard.getBoard()[0][2] == 'x' && gameBoard.getBoard()[1][1] == 'x' && gameBoard.getBoard()[2][0] == 'x'))
+    {
+      plturn.textContent = player1.winMessage;
+      round = false;
+    }
+    else if((gameBoard.getBoard()[0][0] == 'o' && gameBoard.getBoard()[0][1] == 'o' && gameBoard.getBoard()[0][2] == 'o')||
+    (gameBoard.getBoard()[1][0] == 'o' && gameBoard.getBoard()[1][1] == 'o' && gameBoard.getBoard()[1][2] == 'o')||
+    (gameBoard.getBoard()[2][0] == 'o' && gameBoard.getBoard()[2][1] == 'o' && gameBoard.getBoard()[2][2] == 'o')||
+    (gameBoard.getBoard()[0][0] == 'o' && gameBoard.getBoard()[1][0] == 'o' && gameBoard.getBoard()[2][0] == 'o')||
+    (gameBoard.getBoard()[0][1] == 'o' && gameBoard.getBoard()[1][1] == 'o' && gameBoard.getBoard()[2][1] == 'o')||
+    (gameBoard.getBoard()[0][2] == 'o' && gameBoard.getBoard()[1][2] == 'o' && gameBoard.getBoard()[2][2] == 'o')||
+    (gameBoard.getBoard()[0][0] == 'o' && gameBoard.getBoard()[1][1] == 'o' && gameBoard.getBoard()[2][2] == 'o')||
+    (gameBoard.getBoard()[0][2] == 'o' && gameBoard.getBoard()[1][1] == 'o' && gameBoard.getBoard()[2][0] == 'o'))
+    {
+      plturn.textContent = player2.winMessage;
+      round = false;
+    }
+  }
 })();

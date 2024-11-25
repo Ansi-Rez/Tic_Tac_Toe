@@ -37,4 +37,6 @@ body
 .tictaccontainer table td
 {
   border:black solid 1px;
+  text-align:center;
+  table-layout:fixed;
 }
