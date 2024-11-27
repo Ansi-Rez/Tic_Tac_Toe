@@ -40,9 +40,11 @@ let playerFactory = function(name,id)
 
     return {name,id,winMessage}
 }
-  
-let player1 = playerFactory("Kadeem",1);
-let player2 = playerFactory("Nyron",2);
+
+let pl1name = prompt("Please enter the name of player 1, they will be using x");
+let pl2name = prompt("Please enter the name of player 2, they will be using o");
+let player1 = playerFactory(pl1name,1);
+let player2 = playerFactory(pl2name,2);
 let round = true;
 let current_player = player1.id;
 let plturn = document.querySelector("#player_turn");
@@ -51,7 +53,6 @@ plturn.textContent = player1.name;
 
 let game = (function()
 {
-
   let squares = document.querySelectorAll(".tictaccontainer td");
 
   for(let i=0; i < squares.length; i++)
@@ -61,11 +62,10 @@ let game = (function()
       if(round && e.target.textContent != 'x' && e.target.textContent != 'o')
       {
         changeSquares(Number(e.target.getAttribute("data-square-row")),Number(e.target.getAttribute("data-square-col")),e.target);
-        console.log("hello");
       }
       else
       {
-        console.log("hi");
+        console.log("Click on another tile or click reset.");
       }
     });
   }
@@ -109,5 +109,33 @@ let game = (function()
       plturn.textContent = player2.winMessage;
       round = false;
     }
+    else if(!gameBoard.getBoard()[0].includes("-") && !gameBoard.getBoard()[1].includes("-") && !gameBoard.getBoard()[2].includes("-"))
+    {
+      plturn.textContent = "Players have tied";
+      round = false;
+    }
   }
+return(changeSquares);
 })();
+
+document.querySelector("#reset").addEventListener("click",()=>
+{
+  round = true;
+  let squares = document.querySelectorAll(".tictaccontainer td");
+  let fullboard = gameBoard.getBoard();
+  current_player = player1.id;
+  plturn.textContent = player1.name;
+
+  for(let i=0; i < fullboard.length; i++)
+  {
+    for(let j=0; j < fullboard[i].length; j++)
+    {
+      fullboard[i][j] = "-";
+    }
+  }
+
+  for(let i=0; i < squares.length; i++)
+  {
+    squares[i].textContent = "";
+  }
+}); 

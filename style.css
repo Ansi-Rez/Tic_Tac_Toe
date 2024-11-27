@@ -19,13 +19,13 @@ body
 {
   background-color:#FA0536;
   width:350px;
-  height:450px;
+  height:475px;
   border:black solid 1px;
 }
 
 .tictaccontainer table
 {
-  height:95%;
+  height:80%;
   width:100%;
 }
 
